@@ -1,0 +1,11 @@
+// Visibilidad
+for size, screen-size in breakpoints
+  @media screen and (max-width: screen-size - 1)
+    .from-{size}
+      display none !important
+
+// Visibilidad hasta $size
+for size, screen-size in breakpoints
+  @media screen and (min-width: screen-size)
+    .to-{size}
+      display none !important

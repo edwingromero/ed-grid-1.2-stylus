@@ -1,0 +1,28 @@
+// Botones, el mixin button recibe tres par�metros (todos opcionales)
+// color de fondo, color de texto, estilo (round o radius)
+button(bg-color= #ddd,front-color= #333,style= default)
+  display inline-block
+  line-height 2.5em
+  background bg-color
+  color front-color
+  padding 0 1.5em
+  cursor pointer
+  margin-bottom 1em
+  &:hover
+    background darken(bg-color, 5)
+  &:active
+    transform scale(.97)
+  // estilos del boton (radius o round)
+  if(style == radius)
+    border-radius .25em
+  else if(style == round)
+    border-radius 1.25em
+
+// Aplicar el mixin button()
+// Puede aplicarlo a otras clases o crear variaciones con par�metros
+.boton, .button, button
+  button()
+  &.round
+    button(#ddd,#333,round)
+  &.radius
+    button(#ddd,#333,radius)

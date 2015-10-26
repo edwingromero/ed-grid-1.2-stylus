@@ -1,0 +1,136 @@
+// Mixins para media queries
+// El parámetro es el nombre del breakpoint
+hasta(size)
+  if size in breakpoints
+    // Si el parámetro es el nombre de un tamaño, se extrae desde el map
+    @media screen and (max-width: (breakpoints[size] - 1))
+      {block}
+  else
+    // Si el parámetro no existe en el map, se toma su valor para construir la media query
+    @media screen and (max-width: size)
+      {block}
+
+to(size)
+  if size in breakpoints
+    // Si el parámetro es el nombre de un tamaño, se extrae desde el map
+    @media screen and (max-width: (breakpoints[size] - 1))
+      {block}
+  else
+    // Si el parámetro no existe en el map, se toma su valor para construir la media query
+    @media screen and (max-width: size)
+      {block}
+
+
+desde(size)
+  if size in breakpoints
+    // Si el parámetro es el nombre de un tamaño, se extrae desde el map
+    @media screen and (min-width: breakpoints[size])
+      {block}
+  else
+    // Si el parámetro no existe en el map, se toma su valor para construir la media query
+    @media screen and (min-width: size)
+      {block}
+
+from(size)
+  if size in breakpoints
+    // Si el parámetro es el nombre de un tamaño, se extrae desde el map
+    @media screen and (min-width: breakpoints[size])
+      {block}
+  else
+    // Si el parámetro no existe en el map, se toma su valor para construir la media query
+    @media screen and (min-width: size)
+      {block}
+
+desde-hasta(desde,hasta)
+  if desde in breakpoints and hasta in breakpoints
+    @media screen and (min-width: breakpoints[desde]) and (max-width: breakpoints[hasta] - 1)
+      {block}
+  else if desde in breakpoints and (hasta in breakpoints==false)
+    @media screen and (min-width: breakpoints[desde]) and (max-width: hasta)
+      {block}
+  else if (desde in breakpoints == false) and hasta in breakpoints
+    @media screen and (min-width: desde) and (max-width: breakpoints[hasta] - 1)
+      {block}
+  else
+    @media screen and (min-width: desde) and (max-width: hasta)
+      {block}
+
+from-to(desde,hasta)
+  if desde in breakpoints and hasta in breakpoints
+    @media screen and (min-width: breakpoints[desde]) and (max-width: breakpoints[hasta] - 1)
+      {block}
+  else if desde in breakpoints and (hasta in breakpoints==false)
+    @media screen and (min-width: breakpoints[desde]) and (max-width: hasta)
+      {block}
+  else if (desde in breakpoints == false) and hasta in breakpoints
+    @media screen and (min-width: desde) and (max-width: breakpoints[hasta] - 1)
+      {block}
+  else
+    @media screen and (min-width: desde) and (max-width: hasta)
+      {block}
+
+// Mixins para cuadriculas
+// Se aplica al contendor de la cuadricula.
+// Los parámetros son el selector de cada item y el número de columnas
+// El tercer parámetro (opcional) es la separacion entre columnas (no son validos los porcentajes)
+// todo: clases del tipo size-grid-n para poder crear grids por clases (no solo por sass) de preferencia en un archivo aparte para que lo desactiven quienes van a usar solo sass
+
+item-width(width,separacion)
+  s("calc(%s - %s)", width,separacion)
+
+cuadricula(items, columnas, separacion=1em)
+  width = (100% / columnas)
+  display flex
+  flex-wrap wrap
+  margin-left (-(separacion / 2))
+  margin-right (-(separacion / 2))
+
+  if items == li
+    margin      0
+    padding     0
+    list-style  none
+    li
+      margin-left: 0;
+  & > {items}, & > .{items}
+    width  item-width(width ,separacion)
+    margin (separacion / 2)
+
+
+// Mixin para controlar el padding
+// El parámetro es por cuanto se va a multiplicar el padding base.
+padding-ed(numero)
+  padding-left (padding * numero)
+  padding-right (padding * numero)
+
+// Mixin para proporcion de aspecto, se le pasan tres parámetros
+// Horizontal, Vertical y Ancho. Este ultimo es opcional, si no
+// se pasa, se tomará el 100% de ancho por defecto.
+proporcion(h,v,width=100%)
+  width           width
+  height          0
+  overflow        hidden
+  padding-bottom  width * (v/h)
+
+
+limpiar()
+  &:before,&:after
+    content ""
+    width 100%
+    display table
+    clear both
+
+derecha(width=auto,margin-left=1em)
+  float right
+  width width
+  margin-left margin-left
+
+izquierda(width=auto,margin-right=1em)
+  float left
+  width width
+  margin-right margin-right
+
+centro(width=auto)
+  display table
+  width width
+  margin-left auto
+  margin-right auto
